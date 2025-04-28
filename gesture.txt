@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Gestures Demo',
+      home: GestureDetectorDemo(),
+    );
+  }
+}
+
+class GestureDetectorDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Gestures'),
+      ),
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            print('Tapped!');
+          },
+          onDoubleTap: () {
+            print('Double Tapped!');
+          },
+          onLongPress: () {
+            print('Long Pressed!');
+          },
+          child: Container(
+            color: Colors.blue,
+            width: 200,
+            height: 200,
+            child: Center(
+              child: Text(
+                'Tap me!',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

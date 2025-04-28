@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Widget Tree',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Widget Tree Demo'),
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              'This is a simple Widget Tree demo!',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('Click Me'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('Click Me Too'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

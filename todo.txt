@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter To-Do List',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: TodoList(),
+    );
+  }
+}
+
+class TodoList extends StatefulWidget {
+  @override
+  _TodoListState createState() => _TodoListState();
+}
+
+class _TodoListState extends State<TodoList> {
+  final TextEditingController _controller = TextEditingController();
+  List<String> _tasks = [];
+
+  // Function to add a task
+  void _addTask() {
+    if (_controller.text.isNotEmpty) {
+      setState(() {
+        _tasks.add(_controller.text);
+      });
+      _controller.clear();
+    }
+  }
+
+  // Function to remove a task
+  void _removeTask(int index) {
+    setState(() {
+      _tasks.removeAt(index);
+    });
+  }
+
+  // Function to mark a task as completed (for demonstration)
+  void _toggleTaskCompletion(int index) {
+    setState(() {
+      // Simply toggling the task's string to indicate completion
+      _tasks[index] = _tasks[index] + ' (Completed)';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('To-Do List'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            // Input field to add tasks
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: 'Enter Task',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            // Button to add task
+            ElevatedButton(
+              onPressed: _addTask,
+              child: Text('Add Task'),
+            ),
+            SizedBox(height: 20),
+            // Displaying the list of tasks
+            Expanded(
+              child: ListView.builder(
+                itemCount: _tasks.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      _tasks[index],
+                      style: TextStyle(
+                        decoration: _tasks[index].endsWith('(Completed)')
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => _removeTask(index),
+                    ),
+                    onTap: () => _toggleTaskCompletion(index),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

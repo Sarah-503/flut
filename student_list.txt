@@ -1,0 +1,120 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class Student {
+  String name;
+  int age;
+  String grade;
+  Student({required this.name, required this.age, required this.grade});
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Student List View',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: StudentList(),
+    );
+  }
+}
+
+class StudentList extends StatefulWidget {
+  @override
+  _StudentListState createState() => _StudentListState();
+}
+
+class _StudentListState extends State<StudentList> {
+  final List<Student> _students = [];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _gradeController = TextEditingController();
+
+  // Function to add a new student to the list
+  void _addStudent() {
+    if (_nameController.text.isNotEmpty &&
+        _ageController.text.isNotEmpty &&
+        _gradeController.text.isNotEmpty) {
+      setState(() {
+        _students.add(Student(
+          name: _nameController.text,
+          age: int.parse(_ageController.text),
+          grade: _gradeController.text,
+        ));
+      });
+      _nameController.clear();
+      _ageController.clear();
+      _gradeController.clear();
+    }
+  }
+
+  // Function to remove a student from the list
+  void _removeStudent(int index) {
+    setState(() {
+      _students.removeAt(index);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Student List View'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            // Input fields to add a new student
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: _ageController,
+              decoration: InputDecoration(labelText: 'Age'),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: _gradeController,
+              decoration: InputDecoration(labelText: 'Grade'),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _addStudent,
+              child: Text('Add Student'),
+            ),
+            SizedBox(height: 20),
+            // Displaying the student list
+            Expanded(
+              child: ListView.builder(
+                itemCount: _students.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(_students[index].name),
+                      subtitle: Text(
+                          'Age: ${_students[index].age}, Grade: ${_students[index].grade}'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () => _removeStudent(index),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
