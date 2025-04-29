@@ -44,14 +44,6 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
-  // Function to mark a task as completed (for demonstration)
-  void _toggleTaskCompletion(int index) {
-    setState(() {
-      // Simply toggling the task's string to indicate completion
-      _tasks[index] = _tasks[index] + ' (Completed)';
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,19 +75,11 @@ class _TodoListState extends State<TodoList> {
                 itemCount: _tasks.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(
-                      _tasks[index],
-                      style: TextStyle(
-                        decoration: _tasks[index].endsWith('(Completed)')
-                            ? TextDecoration.lineThrough
-                            : null,
-                      ),
-                    ),
+                    title: Text(_tasks[index]),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () => _removeTask(index),
                     ),
-                    onTap: () => _toggleTaskCompletion(index),
                   );
                 },
               ),
